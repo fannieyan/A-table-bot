@@ -10,10 +10,10 @@ const tags = ['main course', 'dessert', 'marinade', 'fingerfood', 'snack'];
 let lastTimeAsked = new Date('2022-10-01').getTime();
 
 const isChatAllowed = (ctx: any): boolean => {
-  const chatId = ctx.message.chat.id;
+  const chatId: number = ctx.message.chat.id;
   const allowedChatsString = process.env.ALLOWED_CHAT_IDS as string;
   const allowedChats = allowedChatsString.split(',');
-  return allowedChats.includes(chatId);
+  return allowedChats.includes(chatId.toString());
 };
 
 bot.use(async (ctx, next) => {
