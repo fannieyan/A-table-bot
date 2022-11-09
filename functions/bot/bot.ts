@@ -9,24 +9,22 @@ const spoonacularKey = process.env.SPOONACULAR_KEY as string;
 const tags = ['main course', 'dessert', 'marinade', 'fingerfood', 'snack'];
 let lastTimeAsked = new Date('2022-10-01').getTime();
 
-const checkChat = (ctx: any): boolean => {
+const isChatAllowed = (ctx: any): boolean => {
   const chatId = ctx.message.chat.id;
   const allowedChatsString = process.env.ALLOWED_CHAT_IDS as string;
   const allowedChats = allowedChatsString.split(',');
-  console.log(allowedChats, chatId);
-  if (!allowedChats.includes(chatId.toString())) {
-    return false;
-  }
-  return true;
+  return allowedChats.includes(chatId);
 };
 
 bot.use(async (ctx, next) => {
-  if (checkChat(ctx)) return await ctx.reply('BLEUARG !');
+  if (!isChatAllowed(ctx)) {
+    console.log('Chat is not allowed to query bot.');
+    return await ctx.reply('BLEUARG !');
+  }
   return await next(); // runs next middleware
 });
 
 bot.start((ctx) => {
-  checkChat(ctx);
   console.log('Received /start command');
   try {
     return ctx.reply('Bot paré au lancement.');
@@ -67,7 +65,6 @@ bot.command('nouvelle', async (ctx) => {
     text += printInstructions(recipe.analyzedInstructions);
     text += `\n\n${recipe.sourceUrl}`;
 
-    console.log(text);
     await ctx.reply(text + '\nProvided by Spoonacular API');
   } catch (error) {
     await ctx.reply(
