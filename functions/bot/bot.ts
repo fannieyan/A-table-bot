@@ -1,4 +1,4 @@
-import { Telegraf } from 'telegraf';
+import { Context, Telegraf } from 'telegraf';
 import axios from 'axios';
 import { printIngredients, printInstructions } from './utils';
 
@@ -9,7 +9,23 @@ const spoonacularKey = process.env.SPOONACULAR_KEY as string;
 const tags = ['main course', 'dessert', 'marinade', 'fingerfood', 'snack'];
 let lastTimeAsked = new Date('2022-10-01').getTime();
 
+const checkChat = (ctx: any): boolean => {
+  const chatId = ctx.message.chat.id;
+  // This should be string list.
+  const allowedChats = process.env.ALLOWED_CHAT_IDS as any;
+  if (!allowedChats.include(chatId)) {
+    return false;
+  }
+  return true;
+};
+
+bot.use(async (ctx, next) => {
+  if (checkChat(ctx)) return await ctx.reply('BLEUARG !');
+  return await next(); // runs next middleware
+});
+
 bot.start((ctx) => {
+  checkChat(ctx);
   console.log('Received /start command');
   try {
     return ctx.reply('Bot paré au lancement.');
