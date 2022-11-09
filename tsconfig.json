@@ -3,12 +3,12 @@
     "target": "es2016",
     "lib": ["es6"],
     "module": "commonjs",
-    "rootDir": "src",
+    "rootDir": "functions",
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "build",
     "esModuleInterop": true,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": true
   }
 }
