@@ -13,6 +13,7 @@ const checkChat = (ctx: any): boolean => {
   const chatId = ctx.message.chat.id;
   const allowedChatsString = process.env.ALLOWED_CHAT_IDS as string;
   const allowedChats = allowedChatsString.split(',');
+  console.log(allowedChats, chatId);
   if (!allowedChats.includes(chatId.toString())) {
     return false;
   }
