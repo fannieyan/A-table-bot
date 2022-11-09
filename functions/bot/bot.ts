@@ -9,6 +9,16 @@ const spoonacularKey = process.env.SPOONACULAR_KEY as string;
 const tags = ['main course', 'dessert', 'marinade', 'fingerfood', 'snack'];
 let lastTimeAsked = new Date('2022-10-01').getTime();
 
+bot.start((ctx) => {
+  console.log('Received /start command');
+  try {
+    return ctx.reply('Bot paré au lancement.');
+  } catch (e) {
+    console.error('error in start action:', e);
+    return ctx.reply('Error occured');
+  }
+});
+
 bot.command('hello', async (ctx) => {
   console.log('Received /hello command.');
   // Using context shortcut
@@ -58,6 +68,7 @@ bot.command('quit', async (ctx) => {
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
 exports.handler = async (event: { body: string }) => {
+  console.log(event.body);
   try {
     await bot.handleUpdate(JSON.parse(event.body));
     return { statusCode: 200, body: '' };
