@@ -11,9 +11,9 @@ let lastTimeAsked = new Date('2022-10-01').getTime();
 
 const checkChat = (ctx: any): boolean => {
   const chatId = ctx.message.chat.id;
-  // This should be string list.
-  const allowedChats = process.env.ALLOWED_CHAT_IDS as any;
-  if (!allowedChats.include(chatId)) {
+  const allowedChatsString = process.env.ALLOWED_CHAT_IDS as string;
+  const allowedChats = allowedChatsString.split(',');
+  if (!allowedChats.includes(chatId.toString())) {
     return false;
   }
   return true;
