@@ -10,11 +10,13 @@ const tags = ['main course', 'dessert', 'marinade', 'fingerfood', 'snack'];
 let lastTimeAsked = new Date('2022-10-01').getTime();
 
 bot.command('hello', async (ctx) => {
+  console.log('Received /hello command.');
   // Using context shortcut
   await ctx.reply(`Coucou ${ctx.update.message.from.first_name} !`);
 });
 
 bot.command('nouvelle', async (ctx) => {
+  console.log('Received /nouvelle command.');
   // Limit the number of calls made on start up.
   if (Date.now() - lastTimeAsked < 10000) {
     return;
@@ -48,18 +50,11 @@ bot.command('nouvelle', async (ctx) => {
 });
 
 bot.command('quit', async (ctx) => {
+  console.log('Received /quit command.');
   await ctx.reply('Bybye !');
   // Using context shortcut
   await ctx.leaveChat();
 });
-
-void bot.launch();
-
-console.log('Bot launched!');
-
-// Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
 // AWS event handler syntax (https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
 exports.handler = async (event: { body: string }) => {
