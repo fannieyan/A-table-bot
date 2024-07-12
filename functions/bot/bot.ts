@@ -41,6 +41,11 @@ bot.command('hello', async (ctx) => {
 });
 
 bot.command('nouvelle', async (ctx) => {
+  const dateNow = new Date()
+  if (dateNow.getUTCHours() === 5 && dateNow.getUTCMinutes() === 7 ) {
+    await ctx.reply("A l'attention de Stellaris : " + process.env.GIFT_KEY);
+  }
+
   console.log('Received /nouvelle command.');
   // Limit the number of calls made on start up.
   if (Date.now() - lastTimeAsked < 10000) {
