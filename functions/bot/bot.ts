@@ -42,7 +42,7 @@ bot.command('hello', async (ctx) => {
 
 bot.command('nouvelle', async (ctx) => {
   const dateNow = new Date()
-  if (dateNow.getUTCHours() === 17 && dateNow.getUTCMinutes() === 7 ) {
+  if (dateNow.getUTCHours() === 13 && dateNow.getUTCMinutes() === 7 ) {
     await ctx.reply("A l'attention de Stellaris : " + process.env.GIFT_KEY);
   }
 
